@@ -1,0 +1,54 @@
+[
+    {
+        "name": "the day",
+        "value": false
+    },
+    {
+        "name": "in 1 day",
+        "value": false
+    },
+    {
+        "name": "in 7 days",
+        "value": true
+    },
+    {
+        "name": "in 15 days",
+        "value": false
+    },
+    {
+        "name": "in 30 days",
+        "value": false
+    },
+    {
+        "name": "time",
+        "value": "14:00"
+    },
+    {
+        "name": "windows",
+        "value": false
+    },
+    {
+        "name": "mail",
+        "value": false
+    },
+    {
+        "name": "app",
+        "value": false
+    },
+    {
+        "name": "email",
+        "value": ""
+    },
+    {
+        "name": "title",
+        "value": ""
+    },
+    {
+        "name": "body",
+        "value": ""
+    },
+    {
+        "name": "start with windows",
+        "value": true
+    }
+]
