@@ -1,11 +1,11 @@
 [
     {
         "name": "the day",
-        "value": false
+        "value": true
     },
     {
         "name": "in 1 day",
-        "value": false
+        "value": true
     },
     {
         "name": "in 7 days",
@@ -13,11 +13,11 @@
     },
     {
         "name": "in 15 days",
-        "value": false
+        "value": true
     },
     {
         "name": "in 30 days",
-        "value": false
+        "value": true
     },
     {
         "name": "time",
@@ -25,7 +25,7 @@
     },
     {
         "name": "windows",
-        "value": false
+        "value": true
     },
     {
         "name": "mail",

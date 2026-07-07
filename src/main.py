@@ -5,6 +5,8 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 import os
+import asyncio
+from desktop_notifier import DesktopNotifier
 
 class Notification: 
     def __init__(self,  id:str ,name: str, date: str):
@@ -27,6 +29,69 @@ def get_assets_dir() -> Path:
     return Path(os.environ.get("FLET_ASSETS_DIR", str(default_assets_dir))).resolve()
 assets_dir = get_assets_dir()
 
+async def send_notification():
+    notify_today = []
+    notify_tomorrow = []
+    notify_7_days = []
+    notify_15_days = []
+    notify_30_days = []
+    
+    today = datetime.today()
+    today = datetime.strftime(today, "%d/%m/%Y")
+    today = datetime.strptime(today,"%d/%m/%Y")
+
+
+    notifier = DesktopNotifier()
+    async def send_windows_notification(notification):
+        await notifier.send(title=f"Expiring in {notification.date}", message=f"{notification.name}")
+
+    async def notify():
+        if settings[6].value == True:
+            for notification in notify_today:
+                await send_windows_notification(notification)
+            for notification in notify_tomorrow:
+                await send_windows_notification(notification)
+            for notification in notify_7_days:
+                await send_windows_notification(notification)
+            for notification in notify_15_days:
+                await send_windows_notification(notification)
+            for notification in notify_30_days:
+                await send_windows_notification(notification)
+        if settings[7].value == True:
+            print()
+        if settings[8].value == True:
+            print()
+
+    def set_today_notifications():
+        if settings[0].value == True:
+            for notification in notifications:
+                calc = datetime.strptime(notification.date, "%d/%m/%Y") - today
+                if calc.days == 0:
+                    notify_today.append(notification)  
+        if settings[1].value == True:
+            for notification in notifications:
+                calc = datetime.strptime(notification.date, "%d/%m/%Y") - today
+                if calc.days == 1:
+                    notify_tomorrow.append(notification)
+        if settings[2].value == True:
+            for notification in notifications:
+                calc = datetime.strptime(notification.date, "%d/%m/%Y") - today
+                if calc.days == 7:
+                    notify_7_days.append(notification)       
+        if settings[3].value == True:
+            for notification in notifications:
+                calc = datetime.strptime(notification.date, "%d/%m/%Y") - today
+                if calc.days == 15:
+                    notify_15_days.append(notification)
+        if settings[4].value == True:
+            for notification in notifications:
+                calc = datetime.strptime(notification.date, "%d/%m/%Y") - today
+                if calc.days == 30:
+                    notify_30_days.append(notification)
+
+    set_today_notifications()         
+    await notify()
+    
 def add_notification(id, name, date):
     notification = Notification(id, name, date)
     notifications.append(notification)
@@ -75,7 +140,7 @@ def load_settings():
     except Exception as e:
         print(e)
 
-def main(page = ft.Page):
+async def main(page = ft.Page):
     page.appbar = ft.AppBar(
         title=ft.Text("Notifications App"),
         bgcolor='grey')
@@ -265,6 +330,7 @@ def main(page = ft.Page):
                     controls=[
                     ft.Row(ft.Button(icon=ft.Icon(ft.Icons.LIST),content="LIST",expand=True,on_click=reload_list)),
                     ft.Row(ft.Button(icon=ft.Icon(ft.Icons.ADD),content="ADD",expand=True,on_click=adding)),
+                    ft.Row(ft.Button(icon=ft.Icon(ft.Icons.TAB),content="TEST",expand=True,on_click=send_notification)),
                     ft.Divider(height=3,thickness=3)]),
                 ft.Row(ft.Button(icon=ft.Icon(ft.Icons.SETTINGS),content=ft.Text('SETTINGS'),expand=True,on_click=settings_config))
             ]
